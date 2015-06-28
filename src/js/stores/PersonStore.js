@@ -4,16 +4,14 @@ var assign = require('object-assign');
 
 //for now our memory storage of people is a hash map of objects keyed on ID
 var _people = {};
-
+var _index = 0;
 
 //truly we would want to send to the server here
-function create(firstName, lastName){
-	var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
-	_people[id] = {
-		id: id,
-		firstName: firstName,
-		lastName: lastName
-	};
+function create(person){
+	
+	person.id = _index +1;
+	_index += 1;
+	_people[person.id] = person;
 }
 
 
@@ -36,9 +34,7 @@ AppDispatcher.register(function(action){
 		lastName;
 	switch(action.actionType){
 		case "CREATE":
-			firstName = action.firstName.trim();
-			lastName = action.lastName.trim();
-			create(firstName, lastName);
+			create(action.person);
 			PersonStore.emitChange();
 		break;
 

@@ -2,15 +2,14 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 
 var PersonActions = {
-	
-	create: function(firstName, lastName){
+
+	create: function(person){
 		AppDispatcher.dispatch({
 			actionType: "CREATE",
-			firstName: firstName,
-			lastName: lastName
+			person:person
 		});
 	}
-	
+
 };
 
 module.exports = PersonActions;

@@ -30,16 +30,12 @@ var PersonComponent = React.createClass({
 	render:function(){
 		return (
 			<div>
-				<PersonForm savePerson={this._savePerson}/>
+				<PersonForm/>
 				<div>
 					<PersonList people={this.state.people}/>
 				</div>
 			</div>
-
 			);
-	},
-	_savePerson: function(person){
-		PersonActions.create(person.firstName, person.lastName);
 	},
 	_onChange : function(){
 		this.setState({
