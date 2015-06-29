@@ -2,6 +2,9 @@
   "ecmaFeatures": {
     "jsx": true
   },
+  "rules" : {
+    "quotes" : [0]
+  },
   "plugins": ["react"],
   "env":{
     "browser": true,
