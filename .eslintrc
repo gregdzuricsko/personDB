@@ -2,6 +2,7 @@
   "ecmaFeatures": {
     "jsx": true
   },
+  "plugins": ["react"],
   "env":{
     "browser": true,
     "node": true

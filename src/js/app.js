@@ -5,7 +5,7 @@
 * events (EventEmitter) - A node library for a class that emits events. Used for our store implementation to notify of changes
 */
 
-var React = require('react');
-var PersonApp = require('./components/PersonApp');
+var React = require("react");
+var PersonApp = require("./components/PersonApp");
 
 React.render(<PersonApp/>, document.getElementById("app"));
