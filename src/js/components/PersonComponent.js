@@ -1,6 +1,7 @@
+"use strict";
+
 var React = require("react");
 var PersonStore = require('../stores/PersonStore');
-var PersonActions = require('../actions/PersonActions');
 var PersonForm = require('./PersonForm');
 var PersonList = require('./PersonList');
 
@@ -22,12 +23,12 @@ var PersonApp = React.createClass({
     };
   },
   componentDidMount: function() {
-    PersonStore.addChangeListener(this._onChange);
+    PersonStore.addChangeListener(this.onChange);
   },
   render: function() {
     return (
       <div>
-        <PersonForm savePerson={this._savePerson}/>
+        <PersonForm />
         <div>
           <PersonList people={this.state.people}/>
         </div>
@@ -35,10 +36,7 @@ var PersonApp = React.createClass({
 
     );
   },
-  _savePerson: function(person) {
-    PersonActions.create(person.firstName, person.lastName);
-  },
-  _onChange: function() {
+  onChange: function() {
     this.setState({
       people: getPeopleState()
     });
