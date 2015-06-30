@@ -1,6 +1,7 @@
 var React = require('react');
 var Person = require('../models/Person');
 var PersonActions = require('../actions/PersonActions');
+var AddressForm = require('./AddressForm');
 
 var PersonForm = React.createClass({
 	getInitialState: function(){
@@ -21,7 +22,8 @@ var PersonForm = React.createClass({
 						onChange={this._handleInputChange.bind(this,'firstName')}/>
 				<input type="text" placeholder="Last Name" value={this.state.lastName}
 						onChange={this._handleInputChange.bind(this,'lastName')}/>
-				<input type="submit" value="Save Person" disabled={this.state.buttonDisabled} onClick={this._savePerson}/>
+				<AddressForm/>
+					<input type="submit" value="Save Person" disabled={this.state.buttonDisabled} onClick={this._savePerson}/>
 			</form>
 		);
 
