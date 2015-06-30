@@ -5,7 +5,7 @@ Starting with the boilerplate at http://github.com/justinrassier/gulp-browserify
 
 ```ShellSession
 npm install -g gulp
-npm ipm install
+npm install
 ```
 
 ## For building
