@@ -4,7 +4,8 @@
   },
   "rules" : {
     "quotes" : [0],
-    "no-unused-vars": [1]
+    "no-unused-vars": [1],
+    "eol-last": [0]
   },
   "plugins": ["react"],
   "env":{

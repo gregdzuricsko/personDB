@@ -1,8 +1,10 @@
 "use strict";
-var Person = function(){
+var Person = function() {
   this.id = 0;
   this.firstName = "";
   this.lastName = "";
+  this.addresses = [];
+
 };
 
 module.exports = Person;

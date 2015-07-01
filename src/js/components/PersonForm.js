@@ -9,10 +9,8 @@ var Address = require('../models/Address');
 var PersonForm = React.createClass({
   getInitialState: function() {
     return {
-      firstName: "",
-      lastName: "",
-      buttonDisabled: true,
-      addresses: []
+      person: new Person(),
+      buttonDisabled: false
     };
   },
   componentDidMount: function() {
@@ -20,14 +18,14 @@ var PersonForm = React.createClass({
   },
   render: function() {
 
-    var addressForms = this.state.addresses.map(function(address){
+    var addressForms = this.state.person.addresses.map(function(address){
       return <AddressForm address={address}/>;
     });
 
     return (
       <form onSubmit={this.savePerson}>
-        <input onChange={this.handleInputChange.bind(this, 'firstName')} placeholder="First Name" ref="firstName" type="text" value={this.state.firstName}/>
-        <input onChange={this.handleInputChange.bind(this, 'lastName')} placeholder="Last Name" type="text" value={this.state.lastName}/>
+        <input onChange={this.handleInputChange.bind(this, 'firstName')} placeholder="First Name" ref="firstName" type="text" value={this.state.person.firstName}/>
+        <input onChange={this.handleInputChange.bind(this, 'lastName')} placeholder="Last Name" type="text" value={this.state.person.lastName}/>
         <button onClick={this.addAddressForm}>Add Address</button>
         {addressForms}
         <input disabled={this.state.buttonDisabled} type="submit" value="Save Person"/>
@@ -37,14 +35,14 @@ var PersonForm = React.createClass({
   },
   handleInputChange: function(field, e) {
     var newState = this.state;
-    newState[field] = e.target.value;
-    newState.buttonDisabled = (!newState.firstName && !newState.lastName);
+    newState.person[field] = e.target.value;
+    newState.buttonDisabled = (!newState.person.firstName && !newState.person.lastName);
     this.setState(newState);
   },
   addAddressForm: function(e){
     e.preventDefault();
     var newState = this.state;
-    newState.addresses.push(new Address());
+    newState.person.addresses.push(new Address());
     this.setState(newState);
   },
   savePerson: function(e) {
@@ -52,14 +50,13 @@ var PersonForm = React.createClass({
 
     //fill out our person and call up to the main app to save
     var p = new Person();
-    p.firstName = this.state.firstName.trim();
-    p.lastName = this.state.lastName.trim();
+    p.firstName = this.state.person.firstName.trim();
+    p.lastName = this.state.person.lastName.trim();
     if (p.firstName || p.lastName) {
-      PersonActions.create(p);
+      PersonActions.create(this.state.person);
       this.setState({
-        firstName: "",
-        lastName: "",
-        addresses: []
+        person: new Person(),
+        buttonDisabled: false
       });
       React.findDOMNode(this.refs.firstName).focus();
     }
