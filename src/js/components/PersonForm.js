@@ -10,7 +10,7 @@ var PersonForm = React.createClass({
   getInitialState: function() {
     return {
       person: new Person(),
-      buttonDisabled: false
+      buttonDisabled: true
     };
   },
   componentDidMount: function() {
