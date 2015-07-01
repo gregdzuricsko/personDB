@@ -16,6 +16,9 @@ function create(person) {
   people[person.id] = person;
 }
 
+function update(person){
+  people[person.id] = person;
+}
 
 var PersonStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
@@ -38,7 +41,10 @@ AppDispatcher.register(function(action) {
       create(action.person);
       PersonStore.emitChange();
       break;
-
+    case "UPDATE":
+      update(action.person);
+      PersonStore.emitChange();
+      break;
   }
 
 

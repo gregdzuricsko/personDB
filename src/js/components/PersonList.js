@@ -6,9 +6,9 @@ var PersonItem = require('./PersonItem');
 var PersonList = React.createClass({
   render: function() {
     var items = this.props.people.map(function(person) {
-      return <PersonItem key={person.id} person={person}/>;
-
-    });
+      console.log(this.props.editPerson);
+      return <PersonItem key={person.id} person={person} editPerson={this.props.editPerson} />;
+    }.bind(this));
 
     return (
       <div>

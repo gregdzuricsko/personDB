@@ -1,12 +1,19 @@
+"use strict";
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 
 var PersonActions = {
 
-	create: function(person){
+  create: function(person) {
+    AppDispatcher.dispatch({
+      actionType: "CREATE",
+      person: person
+    });
+  },
+	update: function(person){
 		AppDispatcher.dispatch({
-			actionType: "CREATE",
-			person:person
+			actionType: "UPDATE",
+			person: person
 		});
 	}
 
