@@ -1,3 +1,5 @@
+/*global routie */
+"use strict";
 /***
 * Some basic packages you will find
 * object-assign: This package is a node package that makes it easy to merge object properties into one object. Used for simple inheritance (see PersonStore)
@@ -8,4 +10,12 @@
 var React = require("react");
 var PersonApp = require("./components/PersonApp");
 
-React.render(<PersonApp/>, document.getElementById("app"));
+
+routie({
+    'person': function() {
+        React.render(<PersonApp/>, document.getElementById("app"));
+    },
+    'person/details/:id': function(id) {
+        document.getElementById('app').innerHTML = "";
+    }
+});

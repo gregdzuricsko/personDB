@@ -22,33 +22,52 @@ var PersonComponent = React.createClass({
   getInitialState: function() {
     return {
       people: getPeopleState(),
-      person: new Person()
+      person: new Person(),
+      insertMode: false
     };
   },
   componentDidMount: function() {
     PersonStore.addChangeListener(this.onChange);
   },
   render: function() {
+    var input;
+    if (this.state.insertMode) {
+      input = <PersonForm createPerson={this.createPerson} person={this.state.person} updatePerson={this.updatePErson} cancelClick={this.cancelClick}/>;
+    } else {
+      input = <button className="btn btn-primary" onClick={this.newPersonClick}>Add New Person</button>;
+    }
+
     return (
       <div>
-        <PersonForm person={this.state.person} updatePerson={this.updatePErson} createPerson={this.createPerson}/>
+        {input}
         <div>
-          <PersonList people={this.state.people} editPerson={this.editPerson} />
+          <PersonList editPerson={this.editPerson} people={this.state.people} getPeopleState={this.getPeopleState}/>
         </div>
       </div>
     );
+  },
+  newPersonClick: function() {
+    this.setState({
+      insertMode: true,
+      person: new Person()
+    });
   },
   onChange: function() {
     this.setState({
       people: getPeopleState()
     });
   },
-  updatePerson: function(person){
+  updatePerson: function(person) {
     PersonActions.update(person);
-
   },
-  createPerson: function(person){
+  createPerson: function(person) {
     PersonActions.create(person);
+    this.setState({
+      insertMode: false
+    });
+  },
+  cancelClick: function(){
+    this.setState({insertMode: false});
   }
 
 });

@@ -23,13 +23,21 @@ var PersonForm = React.createClass({
     });
 
     return (
-      <form onSubmit={this.savePerson}>
-        <input onChange={this.handleInputChange.bind(this, 'firstName')} placeholder="First Name" ref="firstName" type="text" value={this.state.person.firstName}/>
-        <input onChange={this.handleInputChange.bind(this, 'lastName')} placeholder="Last Name" type="text" value={this.state.person.lastName}/>
-        <button onClick={this.addAddressForm}>Add Address</button>
+      <div className="form-inline" >
+        <div className="form-group">
+          <label htmlFor="firstNameInput">First Name</label>
+          <input className="form-control" id="firstNameInput" onChange={this.handleInputChange.bind(this, 'firstName')} placeholder="First Name" ref="firstName" type="text" value={this.state.person.firstName}/>
+        </div>
+        <div className="form-group">
+          <label htmlFor="lastNameInput">
+            Last Name</label>
+          <input className="form-control" id="lastnameInput" onChange={this.handleInputChange.bind(this, 'lastName')} placeholder="Last Name" type="text" value={this.state.person.lastName}/>
+        </div>
+        <button className="btn btn-default" onClick={this.addAddressForm}>Add Address</button>
+        <button className="btn btn-primary" disabled={this.state.buttonDisabled} onClick={this.savePerson}>Save Person</button>
+        <button className="btn btn-default" onClick={this.cancelClick}>Cancel</button>
         {addressForms}
-        <input disabled={this.state.buttonDisabled} type="submit" value="Save Person"/>
-      </form>
+      </div>
     );
 
   },
@@ -41,21 +49,24 @@ var PersonForm = React.createClass({
     });
   },
   addAddressForm: function(e) {
-    e.preventDefault();
     var currentPerson = this.state.person;
     currentPerson.addresses.push(new Address());
-    this.setState({person: currentPerson});
+    this.setState({
+      person: currentPerson
+    });
   },
   savePerson: function(e) {
-    e.preventDefault();
     if (this.state.person.id === 0) {
       this.props.createPerson(this.state.person);
     } else {
       this.props.updatePerson(this.state.person);
     }
-    this.setState({person: new Person()});
-
-    return;
+    this.setState({
+      person: new Person()
+    });
+  },
+  cancelClick: function(e) {
+    this.props.cancelClick();
   }
 });
 

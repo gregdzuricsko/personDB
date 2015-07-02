@@ -8,10 +8,12 @@ var watchify = require('watchify');
 var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
 var htmlreplace = require('gulp-html-replace');
+var sass = require('gulp-sass');
 
 
 var path = {
   HTML: 'src/index.html',
+  CSS: 'src/styles/site.scss',
   MINIFIED_OUT: 'build.min.js',
   OUT: 'build.js',
   DEST: 'dist',
@@ -38,7 +40,7 @@ gulp.task('build', function() {
 //watch with browserify and reactify
 gulp.task('watch', function() {
   //regular gulp watch on our HTML
-  gulp.watch(path.HTML, ['copy']);
+  gulp.watch([path.HTML, 'src/styles/**/*.scss'], ['sass', 'copy']);
 
   //use watchify on our browserify bundle to handle changes in JS
   var watcher = watchify(browserify({
@@ -70,11 +72,20 @@ gulp.task('replaceHTML', function() {
     .pipe(gulp.dest(path.DEST));
 });
 
+//plain copy of the HTML to the destination with no replace
 gulp.task('copy', function() {
-  gulp.src(path.HTML)
+  gulp.src([path.HTML])
     .pipe(gulp.dest(path.DEST));
+    gulp.src(['lib/**/*.js'])
+      .pipe(gulp.dest(path.DEST + '/lib'));
 });
 
+//sass compilation
+gulp.task('sass', function() {
+  gulp.src('src/styles/site.scss')
+    .pipe(sass())
+    .pipe(gulp.dest('dist/styles'));
+});
 
-gulp.task('production', ['replaceHTML', 'build']);
-gulp.task('default', ['copy', 'watch']);
+gulp.task('production', ['replaceHTML', 'build', 'sass']);
+gulp.task('default', ['copy', 'watch', 'sass']);
