@@ -5,11 +5,9 @@ var gulp = require('gulp');
 var source = require('vinyl-source-stream');
 var react = require('reactify');
 var watchify = require('watchify');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
 var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
-var htmlreplace = require('gulp-html-replace')
+var htmlreplace = require('gulp-html-replace');
 
 
 var path = {
@@ -24,12 +22,12 @@ var path = {
 
 
 //basic browserify build with reactify transform
-gulp.task('build', function () {
+gulp.task('build', function() {
   // set up the browserify instance on a task basis
   browserify({
-    entries: path.ENTRY_POINT,
-    transform: [react]
-  })
+      entries: path.ENTRY_POINT,
+      transform: [react]
+    })
     .bundle()
     .pipe(source(path.MINIFIED_OUT))
     .pipe(streamify(uglify(path.MINIFIED_OUT)))
@@ -39,27 +37,32 @@ gulp.task('build', function () {
 
 //watch with browserify and reactify
 gulp.task('watch', function() {
+  //regular gulp watch on our HTML
   gulp.watch(path.HTML, ['copy']);
 
-  var watcher  = watchify(browserify({
+  //use watchify on our browserify bundle to handle changes in JS
+  var watcher = watchify(browserify({
     entries: [path.ENTRY_POINT],
     transform: [react],
     debug: true,
-    cache: {}, packageCache: {}, fullPaths: true
+    cache: {},
+    packageCache: {},
+    fullPaths: true
   }));
 
-  return watcher.on('update', function () {
-    watcher.bundle()
-      .pipe(source(path.OUT))
-      .pipe(gulp.dest(path.DEST_SRC));
+  return watcher.on('update', function() {
+      watcher.bundle()
+        .pipe(source(path.OUT))
+        .pipe(gulp.dest(path.DEST_SRC));
       console.log('Updated');
-  })
+    })
     .bundle()
     .pipe(source(path.OUT))
     .pipe(gulp.dest(path.DEST_SRC));
 });
 
-gulp.task('replaceHTML', function(){
+//change the javascript src when building for production
+gulp.task('replaceHTML', function() {
   gulp.src(path.HTML)
     .pipe(htmlreplace({
       'js': 'build/' + path.MINIFIED_OUT
@@ -67,18 +70,11 @@ gulp.task('replaceHTML', function(){
     .pipe(gulp.dest(path.DEST));
 });
 
-gulp.task('copy', function(){
+gulp.task('copy', function() {
   gulp.src(path.HTML)
     .pipe(gulp.dest(path.DEST));
 });
 
 
-//we want to lint our source files, not the browserified ones 
-gulp.task('lint', function() {
-return gulp.src('./src/**/*.js')
-  .pipe(jshint())
-  .pipe(jshint.reporter(stylish));
-});
-
 gulp.task('production', ['replaceHTML', 'build']);
-gulp.task('default', ['copy','watch']);
+gulp.task('default', ['copy', 'watch']);
