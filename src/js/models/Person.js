@@ -4,6 +4,7 @@ var Person = function() {
   this.firstName = "";
   this.lastName = "";
   this.addresses = [];
+  this.contacts = [];
 
 };
 
