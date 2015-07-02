@@ -21,6 +21,7 @@ var PersonForm = React.createClass({
     var addressForms = this.state.person.addresses.map(function(address) {
       return <AddressForm address={address}/>;
     });
+    var contactForm = this.state.person.contact
 
     return (
       <div className="form-inline" >
@@ -37,6 +38,9 @@ var PersonForm = React.createClass({
         <button className="btn btn-primary" disabled={this.state.buttonDisabled} onClick={this.savePerson}>Save Person</button>
         <button className="btn btn-default" onClick={this.cancelClick}>Cancel</button>
         {addressForms}
+        <div className="form-group">
+            {contactForm}
+        </div>
       </div>
     );
 
