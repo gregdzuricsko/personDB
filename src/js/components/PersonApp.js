@@ -20,10 +20,13 @@ function getPeopleState() {
 
 var PersonComponent = React.createClass({
   getInitialState: function() {
+    //initialize a new person with one address already
+    var p = new Person();
+    p.addresses = [new Address()];
     return {
       people: getPeopleState(),
-      person: new Person(),
-      insertMode: false
+      person: p,
+      insertMode: true
     };
   },
   componentDidMount: function() {

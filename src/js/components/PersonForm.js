@@ -37,10 +37,12 @@ var PersonForm = React.createClass({
         <button className="btn btn-default" onClick={this.addAddressForm}>Add Address</button>
         <button className="btn btn-primary" disabled={this.state.buttonDisabled} onClick={this.savePerson}>Save Person</button>
         <button className="btn btn-default" onClick={this.cancelClick}>Cancel</button>
+        <div className="row">
         {addressForms}
         <div className="form-group">
             {contactForm}
         </div>
+      </div>
       </div>
     );
 
