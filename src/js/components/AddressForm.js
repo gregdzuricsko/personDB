@@ -1,5 +1,6 @@
 "use strict";
 var React = require('react');
+var StateSelect = require('./StateSelect');
 
 var AddressForm = React.createClass({
   getInitialState: function() {
@@ -21,7 +22,7 @@ var AddressForm = React.createClass({
             <label htmlFor="cityInput">City</label>
             <input id="cityInput" className="form-control" onChange={this.handleInputChange.bind(this, 'city')} placeholder="City" type="text" value={this.state.address.city}/>
             <label htmlFor="stateInput">State</label>
-            <input id="stateInput" className="form-control" onChange={this.handleInputChange.bind(this, 'state')} placeholder="State" type="text" value={this.state.address.state}/>
+            <StateSelect id="stateInput" onChange={this.handleStateChange} value={this.state.address.state}/>
             <label htmlFor="zipInput">Zip</label>
             <input id="zipInput" className="form-control" onChange={this.handleInputChange.bind(this, 'zip')} placeholder="Zip" type="text" value={this.state.address.zip}/>
           </div>
@@ -35,6 +36,11 @@ var AddressForm = React.createClass({
     this.setState({
       address: newAddress
     });
+  },
+  handleStateChange: function(value){
+    var newAddress = this.state.address;
+    newAddress.state = value;
+    this.setState({address: newAddress});
   }
 
 });
