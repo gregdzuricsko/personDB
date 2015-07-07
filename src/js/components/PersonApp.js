@@ -4,7 +4,7 @@ var PersonStore = require('../stores/PersonStore');
 var PersonForm = require('./PersonForm');
 var PersonList = require('./PersonList');
 var Person = require('../models/Person');
-var Address = require('../models/Person');
+var Address = require('../models/Address');
 var PersonActions = require('../actions/PersonActions');
 
 function getPeopleState() {
@@ -22,7 +22,8 @@ var PersonComponent = React.createClass({
   getInitialState: function() {
     //initialize a new person with one address already
     var p = new Person();
-    p.addresses = [new Address()];
+    p.addresses.push(new Address());
+    console.log(p);
     return {
       people: getPeopleState(),
       person: p,

@@ -14,11 +14,19 @@ module.exports = function(app) {
   });
 
   app.get('/api/people/:id', function(req, res) {
-    Person.findOne({_id: req.params.id}, function (err, person) {
+    Person.findOne({
+      _id: req.params.id
+    }, function(err, person) {
       if (err) {
         res.send(err);
       }
       res.send(person);
     });
+  });
+
+
+  app.post('/api/people', function(req, res) {
+    res.location('api/people/1');
+    res.sendStatus(200);
   });
 };
