@@ -13,12 +13,13 @@ var sass = require('gulp-sass');
 
 var path = {
   HTML: 'src/index.html',
-  CSS: 'src/styles/site.scss',
+  SCSS: 'src/styles/**/*.scss',
   MINIFIED_OUT: 'build.min.js',
   OUT: 'build.js',
   DEST: 'dist',
   DEST_BUILD: './dist/build',
   DEST_SRC: './dist/src',
+  SCSS_ENTRY: 'src/styles/site.scss',
   ENTRY_POINT: './src/js/app.js'
 };
 
@@ -40,7 +41,7 @@ gulp.task('build', function() {
 //watch with browserify and reactify
 gulp.task('watch', function() {
   //regular gulp watch on our HTML
-  gulp.watch([path.HTML, 'src/styles/**/*.scss'], ['sass', 'copy']);
+  gulp.watch([path.HTML, path.SCSS], ['sass', 'copy']);
 
   //use watchify on our browserify bundle to handle changes in JS
   var watcher = watchify(browserify({
@@ -82,7 +83,7 @@ gulp.task('copy', function() {
 
 //sass compilation
 gulp.task('sass', function() {
-  gulp.src('src/styles/site.scss')
+  gulp.src(path.SCSS_ENTRY)
     .pipe(sass())
     .pipe(gulp.dest('dist/styles'));
 });
