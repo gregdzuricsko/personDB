@@ -8,20 +8,16 @@ var PersonForm = require('./PersonForm');
 var PersonItem = React.createClass({
   getInitialState: function() {
     return {
-      isEditing: false,
       originalPerson: this.props.person
     };
   },
   render: function() {
     var input;
-    if (this.state.isEditing) {
-      input = <PersonForm cancelClick={this.cancelClick} person={this.props.person} updatePerson={this.updatePerson} updatePerson={this.updatePerson}/>;
-    } else {
       input = <div>
           <a href="#" onClick={this.onEditClick}>edit</a>{this.props.person.id} {this.props.person.firstName} {this.props.person.lastName}
           <AddressList addresses={this.props.person.addresses}/>
         </div>;
-    }
+        
     return (
       <div>
         {input}
@@ -29,9 +25,7 @@ var PersonItem = React.createClass({
     );
   },
   onEditClick: function(e) {
-    this.setState({
-      isEditing: true
-    });
+    console.log('edit click');
   },
   updatePerson: function(person) {
     this.setState({

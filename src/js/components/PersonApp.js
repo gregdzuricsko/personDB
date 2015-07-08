@@ -44,9 +44,6 @@ var PersonComponent = React.createClass({
     return (
       <div>
         {input}
-        <div>
-          <PersonList editPerson={this.editPerson} people={this.state.people} getPeopleState={this.getPeopleState}/>
-        </div>
       </div>
     );
   },

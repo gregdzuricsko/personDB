@@ -10,6 +10,11 @@ var Promise = require('es6-promise').Promise;
 //for now our memory storage of people is a hash map of objects keyed on ID
 var people = {};
 
+
+function _getAllPeople(){
+  return PersonRepository.getAllPeople();
+}
+
 function create(person) {
   //wrapping in a promise to take care of logic beforep passing it along
   return new Promise(function(resolve, reject) {
@@ -35,7 +40,7 @@ var PersonStore = assign({}, EventEmitter.prototype, {
     this.on('change', callback);
   },
   getAllPeople: function() {
-    return people;
+    return _getAllPeople();
   }
 
 });
