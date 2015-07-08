@@ -11,10 +11,13 @@ var PersonListContainer = React.createClass({
   },
   componentDidMount: function(){
     PersonStore.getAllPeople().then(function(data){
+      for (var i = 0; i < data.length; i++) {
+        data[i].addresses = [];
+      }
       this.setState({
-          people: [{firstName: "Kirsten", lastName: "Rassier", addresses: []}]
+          people: data
       });
-    }, function(err){
+    }.bind(this), function(err){
       console.log(err);
     });
   },
@@ -22,17 +25,9 @@ var PersonListContainer = React.createClass({
     return (
       <div>
         <PersonList people={this.state.people}/>
-        <button onClick={this.setTheState}>Click Me!</button>
       </div>
     );
-  },
-  setTheState: function(){
-    console.log(this.state);
-    this.setState({
-        people: [{firstName: "Kirsten", lastName: "Rassier", addresses: []}]
-    });
   }
-
 });
 
 module.exports = PersonListContainer;
