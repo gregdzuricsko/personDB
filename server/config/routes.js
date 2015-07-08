@@ -20,13 +20,25 @@ module.exports = function(app) {
       if (err) {
         res.send(err);
       }
-      res.send(person);
+      if (!person) {
+        res.sendStatus(404);
+      } else {
+        res.send(person);
+      }
     });
   });
 
 
   app.post('/api/people', function(req, res) {
-    res.location('api/people/1');
-    res.sendStatus(200);
+    var p = new Person(req.body);
+
+    p.save(function(err) {
+      if (err) {
+        console.log('ERROR SAVING ' + err);
+        res.sendStatus(500);
+      }
+      res.location('api/people/' + p.id);
+      res.sendStatus(201);
+    });
   });
 };

@@ -4,33 +4,21 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var $ = require('jquery');
+var PersonRepository = require('../repositories/PersonRepository');
 var Promise = require('es6-promise').Promise;
 
 //for now our memory storage of people is a hash map of objects keyed on ID
 var people = {};
-var index = 0;
 
-//truly we would want to send to the server here
 function create(person) {
-  person.id = index + 1;
-  index += 1;
-  people[person.id] = person;
+  //wrapping in a promise to take care of logic beforep passing it along
   return new Promise(function(resolve, reject) {
-    $.ajax({
-        method: "POST",
-        url: "/api/people",
-         contentType: "application/json; charset=utf-8",
-        // dataType: "json",
-        data: JSON.stringify(person)
-      })
-      .done(function(data, textStatus, jqXHR) {
-        console.log(data);
-        console.log(textStatus);
-        console.log(jqXHR.getResponseHeader('Location'));
-        //resolve(jqXHR);
-      })
-      .fail(function(xhr, err, status) {
-        reject(err);
+    PersonRepository.createPerson(person).then(function() {
+        people[person.id] = person;
+        resolve(person);
+      },
+      function(err) {
+          reject(err);
       });
   });
 }
@@ -58,7 +46,7 @@ AppDispatcher.register(function(action) {
   switch (action.actionType) {
     case "CREATE":
       create(action.person).then(function(result) {
-        console.log(result);
+        console.log('creat success!');
         PersonStore.emitChange();
       }, function(err) {
         console.log(err);
