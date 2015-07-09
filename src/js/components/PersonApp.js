@@ -1,3 +1,4 @@
+/*global routie */
 "use strict";
 var React = require("react");
 var PersonStore = require('../stores/PersonStore');
@@ -25,33 +26,18 @@ var PersonComponent = React.createClass({
     p.addresses.push(new Address());
     console.log(p);
     return {
-      people: getPeopleState(),
-      person: p,
-      insertMode: true
+      person: p
     };
   },
   componentDidMount: function() {
     PersonStore.addChangeListener(this.onChange);
   },
   render: function() {
-    var input;
-    if (this.state.insertMode) {
-      input = <PersonForm createPerson={this.createPerson} person={this.state.person} updatePerson={this.updatePErson} cancelClick={this.cancelClick}/>;
-    } else {
-      input = <button className="btn btn-primary" onClick={this.newPersonClick}>Add New Person</button>;
-    }
-
     return (
       <div>
-        {input}
+        <PersonForm createPerson={this.createPerson} person={this.state.person} updatePerson={this.updatePErson} cancelClick={this.cancelClick}/>;
       </div>
     );
-  },
-  newPersonClick: function() {
-    this.setState({
-      insertMode: true,
-      person: new Person()
-    });
   },
   onChange: function() {
     this.setState({
@@ -63,12 +49,9 @@ var PersonComponent = React.createClass({
   },
   createPerson: function(person) {
     PersonActions.create(person);
-    this.setState({
-      insertMode: false
-    });
   },
   cancelClick: function(){
-    this.setState({insertMode: false});
+    routie('');
   }
 
 });

@@ -1,5 +1,6 @@
 "use strict";
 var $ = require('jquery');
+var Person = require('../models/Person');
 
 exports.createPerson = function(person) {
   return new Promise(function(resolve, reject) {
@@ -27,7 +28,18 @@ exports.getAllPeople = function() {
         url: "/api/people",
       })
       .done(function(data, textStatus, jqXHR) {
-        resolve(data);
+        var result = [];
+        var tmpObject;
+        for (var i = 0; i < data.length; i++) {
+          tmpObject = new Person();
+          tmpObject.id = data[i]._id;
+          tmpObject.firstName = data[i].firstName;
+          tmpObject.lastName = data[i].lastName;
+          tmpObject.addresses = [];
+          result.push(tmpObject);
+        }
+        console.log(result);
+        resolve(result);
       })
       .fail(function(xhr, err, status) {
         reject(err);

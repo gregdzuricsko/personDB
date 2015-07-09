@@ -1,3 +1,4 @@
+/*global routie*/
 "use strict";
 
 var React = require('react');
@@ -6,18 +7,13 @@ var PersonActions = require('../actions/PersonActions');
 var PersonForm = require('./PersonForm');
 
 var PersonItem = React.createClass({
-  getInitialState: function() {
-    return {
-      originalPerson: this.props.person
-    };
-  },
   render: function() {
     var input;
       input = <div>
-          <a href="#" onClick={this.onEditClick}>edit</a>{this.props.person.id} {this.props.person.firstName} {this.props.person.lastName}
+          <a href="#" onClick={this.onEditClick}>edit</a> {this.props.person.firstName} {this.props.person.lastName}
           <AddressList addresses={this.props.person.addresses}/>
         </div>;
-        
+
     return (
       <div>
         {input}
@@ -25,7 +21,7 @@ var PersonItem = React.createClass({
     );
   },
   onEditClick: function(e) {
-    console.log('edit click');
+    routie('people/' + this.props.person.id);
   },
   updatePerson: function(person) {
     this.setState({

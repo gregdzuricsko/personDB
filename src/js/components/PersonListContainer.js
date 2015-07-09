@@ -11,9 +11,6 @@ var PersonListContainer = React.createClass({
   },
   componentDidMount: function(){
     PersonStore.getAllPeople().then(function(data){
-      for (var i = 0; i < data.length; i++) {
-        data[i].addresses = [];
-      }
       this.setState({
           people: data
       });
