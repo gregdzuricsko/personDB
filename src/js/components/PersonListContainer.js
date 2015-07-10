@@ -1,3 +1,4 @@
+/*global routie*/
 "use strict";
 var React = require('react');
 var PersonList = require('./PersonList');
@@ -21,9 +22,13 @@ var PersonListContainer = React.createClass({
   render: function() {
     return (
       <div>
+        <button onClick={this.addPersonClick} className="btn btn-primary">Add Person</button>
         <PersonList people={this.state.people}/>
       </div>
     );
+  },
+  addPersonClick: function(){
+    routie('people');
   }
 });
 

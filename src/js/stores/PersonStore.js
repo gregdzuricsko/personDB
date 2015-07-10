@@ -15,6 +15,10 @@ function _getAllPeople(){
   return PersonRepository.getAllPeople();
 }
 
+function _getPersonByID(id){
+  return PersonRepository.getPersonByID(id);
+}
+
 function create(person) {
   //wrapping in a promise to take care of logic beforep passing it along
   return new Promise(function(resolve, reject) {
@@ -29,7 +33,11 @@ function create(person) {
 }
 
 function update(person) {
-  people[person.id] = person;
+  return new Promise(function(resolve, reject){
+    PersonRepository.updatePerson(person).then(function(){
+      resolve(person);
+    }, function(){});
+  });
 }
 
 var PersonStore = assign({}, EventEmitter.prototype, {
@@ -41,6 +49,9 @@ var PersonStore = assign({}, EventEmitter.prototype, {
   },
   getAllPeople: function() {
     return _getAllPeople();
+  },
+  getPersonByID: function(id){
+    return _getPersonByID(id);
   }
 
 });

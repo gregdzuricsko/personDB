@@ -41,4 +41,20 @@ module.exports = function(app) {
       res.sendStatus(201);
     });
   });
+
+
+  app.put('/api/people/:id', function(req, res) {
+    console.log('in put');
+    var p = new Person(req.body);
+
+    Person.findOneAndUpdate({
+      _id: req.params.id
+    }, p, function(err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+  });
+
 };

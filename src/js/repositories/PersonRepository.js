@@ -19,13 +19,30 @@ exports.createPerson = function(person) {
       });
   });
 };
+exports.updatePerson = function(person) {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+        method: "PUT",
+        url: "/api/people/" + person.id,
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(person)
+      })
+      .done(function(data, textStatus, jqXHR) {
+        // person.id = jqXHR.getResponseHeader('Location');
+        // resolve(person);
+      })
+      .fail(function(xhr, err, status) {
+        reject(err);
+      });
+  });
+};
 
 
 exports.getAllPeople = function() {
   return new Promise(function(resolve, reject) {
     $.ajax({
         method: "GET",
-        url: "/api/people",
+        url: "/api/people"
       })
       .done(function(data, textStatus, jqXHR) {
         var result = [];
@@ -38,11 +55,30 @@ exports.getAllPeople = function() {
           tmpObject.addresses = [];
           result.push(tmpObject);
         }
-        console.log(result);
         resolve(result);
       })
       .fail(function(xhr, err, status) {
         reject(err);
       });
+  });
+};
+
+exports.getPersonByID = function(id) {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+        method: "GET",
+        url: "/api/people/" + id
+      })
+      .done(function(data, textStatus, jqXHR) {
+        //TODO REMOVE ME WHEN WE GET ADDRESSES
+        data.addresses = [];
+        data.id = data._id;
+
+        resolve(data);
+      })
+      .fail(function(xhr, err, status) {
+
+      });
+
   });
 };
